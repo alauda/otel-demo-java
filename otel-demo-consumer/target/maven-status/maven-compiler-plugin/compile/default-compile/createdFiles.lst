@@ -1,0 +1,3 @@
+cn/alauda/oteldemoconsumer/controller/ConsumerController.class
+cn/alauda/oteldemoconsumer/OtelDemoConsumerApplication.class
+cn/alauda/oteldemoconsumer/client/ProviderFeignClient.class

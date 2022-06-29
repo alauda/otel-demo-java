@@ -1,0 +1,6 @@
+cn/alauda/oteldemoprovider/config/RedisConfig.class
+cn/alauda/oteldemoprovider/repo/StudentRepository.class
+cn/alauda/oteldemoprovider/controller/ProviderController.class
+cn/alauda/oteldemoprovider/entity/Student.class
+cn/alauda/oteldemoprovider/controller/StudentController.class
+cn/alauda/oteldemoprovider/OtelDemoProviderApplication.class
