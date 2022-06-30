@@ -10,7 +10,8 @@ on:
     branches: [ "main" ]
   
 env:
-  VERSION: $(git rev-parse --short HEAD) 
+  DEMO_TAG: $(git rev-parse --short HEAD) 
+  PG_TAG: v0.1
 
 jobs:
   build:
@@ -28,7 +29,13 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests
     - name: Build the Docker image
-      run: cd otel-demo-consumer && docker build . --file Dockerfile --tag tuhao1020/otel-demo-consumer:${{ env.VERSION }}
+      run: |
+        cd otel-demo-consumer
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-demo-consumer:${{ env.DEMO_TAG }} 
+        cd ../otel-demo-provider 
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-demo-provider:${{ env.DEMO_TAG }}
+        cd pg
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_ACCOUNT }}/demo-postgres:${{ env.PG_TAG }}
     - name: Docker Login
       # You may pin to the exact commit or the version.
       # uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
@@ -39,4 +46,7 @@ jobs:
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.DOCKERHUB_SECRET }}
     - name: Push Docker image
-      run: docker push ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-demo-consumer:${{ env.VERSION }}
+      run: |
+        docker push ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-demo-consumer:${{ env.DEMO_TAG }}
+        docker push ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-demo-provider:${{ env.DEMO_TAG }}
+        docker push ${{ secrets.DOCKERHUB_ACCOUNT }}/demo-postgres:${{ env.PG_TAG }}
