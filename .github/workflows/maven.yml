@@ -25,7 +25,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests
     - name: Build the Docker image
-      run: docker build ./otel-demo-consumer --file Dockerfile --tag my-image-name:$(date +%s) 
+      run: cd otel-demo-consumer && docker build . --file Dockerfile --tag tuhao1020/otel-demo-consumer:$(date +%s) 
     - name: Docker Login
       # You may pin to the exact commit or the version.
       # uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
@@ -39,7 +39,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
-        images: my-docker-hub-namespace/my-docker-hub-repository
+        images: tuhao1020/otel-demo-consumer
     - name: Build and push Docker image
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
       with:
