@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
   
 env:
-  VERSION: $(date +%s) 
+  VERSION: $(git rev-parse --short HEAD) 
 
 jobs:
   build:
