@@ -33,7 +33,7 @@ jobs:
       run: |
         cd agent
         docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-agent:${{ env.OTEL_AGENT_TAG }} 
-        cd otel-demo-consumer
+        cd ../otel-demo-consumer
         docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-demo-consumer:${{ env.DEMO_TAG }} 
         cd ../otel-demo-provider 
         docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-demo-provider:${{ env.DEMO_TAG }}
