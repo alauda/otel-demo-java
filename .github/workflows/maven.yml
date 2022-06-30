@@ -8,6 +8,9 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  
+env:
+  VERSION: $(date +%s) 
 
 jobs:
   build:
@@ -25,7 +28,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests
     - name: Build the Docker image
-      run: cd otel-demo-consumer && docker build . --file Dockerfile --tag tuhao1020/otel-demo-consumer:$(date +%s) 
+      run: cd otel-demo-consumer && docker build . --file Dockerfile --tag tuhao1020/otel-demo-consumer:${{ env.VERSION }}
     - name: Docker Login
       # You may pin to the exact commit or the version.
       # uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
@@ -35,15 +38,5 @@ jobs:
         username: ${{ secrets.DOCKERHUB_ACCOUNT }}
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.DOCKERHUB_SECRET }}
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-      with:
-        images: tuhao1020/otel-demo-consumer
-    - name: Build and push Docker image
-      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-      with:
-        context: .
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+    - name: Push Docker image
+      run: docker push ${{ secrets.DOCKERHUB_ACCOUNT }}/otel-demo-consumer:${{ env.VERSION }}
