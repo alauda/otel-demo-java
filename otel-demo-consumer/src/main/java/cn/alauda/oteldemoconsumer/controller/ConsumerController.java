@@ -18,7 +18,6 @@ import static io.opentelemetry.api.common.AttributeKey.stringKey;
 @RestController
 public class ConsumerController {
     ProviderFeignClient providerClient;
-
     LongCounter counter;
 
     public ConsumerController(ProviderFeignClient providerClient) {
@@ -36,7 +35,6 @@ public class ConsumerController {
                 Attributes.of(stringKey("service.name"), "otel-demo-consumer", stringKey("path"), "/hello"));
         return providerClient.hello();
     }
-
 
     @WithSpan
     public void demoFunc(@SpanAttribute String param) {
